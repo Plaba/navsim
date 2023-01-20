@@ -1,0 +1,5 @@
+fake_robot_odom:
+  ros__parameters:
+    start_x: 3.0
+    start_y: -16.6
+    start_th: 0.0

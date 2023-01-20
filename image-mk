@@ -1,0 +1,37 @@
+#!/bin/bash
+
+rm -rf build/docker/*
+
+# Find all package.xml files in the source directory to avoid 
+# rosdep cache misses on changed source files
+find src -type f \( -name "package.xml" \) \
+  -exec bash -c 'dest="build/.docker/$1" && \
+    mkdir -p -- "$(dirname "$dest")" && \
+    cp -a -- "$1" "$dest"' bash '{}' \;
+
+folder_hash() {
+    tar cf - $1 | sha1sum | awk '{ print $1 }'
+}
+
+MK_ARGS=""
+
+# only build colcon packages if they have changed
+for path in $(colcon list | awk '{ print $2 }'); 
+do
+    name=$(basename $path)
+    new_hash=$(folder_hash $path)
+    if [ -f "build/.docker/$name.hash" ]; then
+        old_hash=$(cat "build/.docker/$name.hash")
+        if [ "$old_hash" != "$new_hash" ]; then
+            MK_ARGS="$MK_ARGS $name"
+            echo $new_hash > "build/.docker/$name.hash"
+        fi
+    else
+        MK_ARGS="$MK_ARGS $name"
+        echo $new_hash > "build/.docker/$name.hash"
+    fi
+done
+
+echo "Building packages: $MK_ARGS"
+
+docker compose build --build-arg MK_ARGS="$MK_ARGS" 

@@ -1,0 +1,4 @@
+#!/bin/bash
+
+ros2 launch nav_testbench nav_bringup.launch.py &
+rqt

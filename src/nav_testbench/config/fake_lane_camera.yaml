@@ -1,0 +1,23 @@
+fake_lane_camera:
+  ros__parameters:
+    map:
+      path: src/simulation/nav_testbench/config/igvc-map-fixed.png
+      width: 36.576
+      height: 42.672
+
+    x_sample_size: 10
+    y_sample_size: 20
+
+    image_corners:
+      bottom_left: 
+        x: 0.5461
+        y: 0.7874
+      bottom_right:
+        x: 0.5461
+        y: -0.7112
+      top_left:
+        x: 2.8448
+        y: 1.6002
+      top_right:
+        x: 2.78765
+        y: -1.4859

@@ -42,7 +42,7 @@ set(DEPENDENCIES
 
 include_directories(include ${Boost_INCLUDE_DIR})
 
-add_library(nav_testbench_utils src/utils/simulation_environment.cpp)
+add_library(nav_testbench_utils src/utils/simulation_environment.cpp src/fake_sensor_node.cpp)
 
 add_executable(fake_robot_odom src/fake_robot_odom.cpp)
 add_executable(fake_lidar src/fake_lidar.cpp)
@@ -57,6 +57,7 @@ install(DIRECTORY launch DESTINATION share/${PROJECT_NAME})
 
 find_package(Boost REQUIRED COMPONENTS system)
 
+ament_target_dependencies(nav_testbench_utils ${DEPENDENCIES})
 ament_target_dependencies(fake_robot_odom ${DEPENDENCIES})
 ament_target_dependencies(fake_lidar ${DEPENDENCIES})
 ament_target_dependencies(fake_lane_camera ${DEPENDENCIES})

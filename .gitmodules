@@ -1,0 +1,3 @@
+[submodule "src/rviz-ground-image"]
+	path = src/rviz-ground-image
+	url = https://github.com/Plaba/rviz_ground_image.git

@@ -6,6 +6,7 @@
 #include <geometry_msgs/msg/twist.hpp>
 #include <geometry_msgs/msg/transform_stamped.hpp>
 #include <geometry_msgs/msg/quaternion.hpp>
+#include "rcl_interfaces/msg/set_parameters_result.hpp"
 
 #include <chrono>
 #include <memory>
@@ -24,6 +25,8 @@ public:
     FakeRobotOdometry();
 private:
 
+    rcl_interfaces::msg::SetParametersResult parametersCallback(
+        const std::vector<rclcpp::Parameter> &parameters);
     geometry_msgs::msg::Quaternion getOdomQuaternion() const;
     void updatePosition(const geometry_msgs::msg::Twist::SharedPtr command);
     void publishTransform();
@@ -41,6 +44,7 @@ private:
     const rclcpp::Duration transform_timeout_ = 0.5s;
     const std::unique_ptr<tf2_ros::Buffer> tf_buffer_;
     const std::shared_ptr<tf2_ros::TransformBroadcaster> tf_broadcaster_;
+    OnSetParametersCallbackHandle::SharedPtr callback_handle_;
 
     const rclcpp::TimerBase::SharedPtr timer_{nullptr};
     const rclcpp::Publisher<nav_msgs::msg::Odometry>::SharedPtr publisher_{nullptr};

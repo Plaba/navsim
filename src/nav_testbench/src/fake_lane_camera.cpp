@@ -1,5 +1,6 @@
 #include <nav_testbench/fake_lane_camera.hpp>
 
+#include <nav_testbench/fake_sensor_node.hpp>
 #include <nav_testbench/utils/simulation_environment.hpp>
 #include <nav_testbench/utils/tf2_polygon_msgs.hpp>
 #include <pcl_conversions/pcl_conversions.h>
@@ -19,46 +20,23 @@ using namespace std::chrono_literals;
 
 namespace nav_testbench
 {
-    FakeLaneCamera::FakeLaneCamera() : Node("fake_lane_camera")
+    FakeLaneCamera::FakeLaneCamera() : FakeSensorNode("fake_lane_camera")
     , tf_buffer_(std::make_unique<tf2_ros::Buffer>(this->get_clock()))
     , tf_listener_(std::make_shared<tf2_ros::TransformListener>(*tf_buffer_))
     , timer_(create_wall_timer(50ms, std::bind(&FakeLaneCamera::timerCallback, this)))
     , cloud_publisher_(create_publisher<sensor_msgs::msg::PointCloud2>("lane_cloud", 10))
     , image_corners_publisher_(create_publisher<geometry_msgs::msg::PolygonStamped>("camera_view", 10))
     {
-
-        declare_parameter("map.path");
-        declare_parameter("map.width");
-        declare_parameter("map.height");
-
-        declare_parameter("frame");
-        robot_frame_ = get_parameter("frame").as_string();
-        source_frame_ = "map";
-
-        const std::string map_path = get_parameter("map.path").as_string();
-        const double map_width = get_parameter("map.width").as_double();
-        const double map_height = get_parameter("map.height").as_double();
-
-        if (boost::filesystem::exists(map_path))
-        {
-            map_ = std::make_unique<SimulationEnvironment>(map_path, map_width, map_height);
-        }
-        else
-        {
-            RCLCPP_FATAL(this->get_logger(), "Map file does not exist at given path: ", map_path.c_str());
-            throw std::runtime_error("Map file does not exist at given path");
-        }
-
         geometry_msgs::msg::Point32 points[4];
 
-        declare_parameter("image_corners.bottom_left.x");
-        declare_parameter("image_corners.bottom_left.y");
-        declare_parameter("image_corners.bottom_right.x");
-        declare_parameter("image_corners.bottom_right.y");
-        declare_parameter("image_corners.top_left.x");
-        declare_parameter("image_corners.top_left.y");
-        declare_parameter("image_corners.top_right.x");
-        declare_parameter("image_corners.top_right.y");
+        declare_parameter<double>("image_corners.bottom_left.x");
+        declare_parameter<double>("image_corners.bottom_left.y");
+        declare_parameter<double>("image_corners.bottom_right.x");
+        declare_parameter<double>("image_corners.bottom_right.y");
+        declare_parameter<double>("image_corners.top_left.x");
+        declare_parameter<double>("image_corners.top_left.y");
+        declare_parameter<double>("image_corners.top_right.x");
+        declare_parameter<double>("image_corners.top_right.y");
 
         points[0].x = get_parameter("image_corners.bottom_left.x").as_double();
         points[0].y = get_parameter("image_corners.bottom_left.y").as_double();
@@ -76,8 +54,8 @@ namespace nav_testbench
 
         image_corners_.header.frame_id = robot_frame_;
 
-        declare_parameter("x_sample_size");
-        declare_parameter("y_sample_size");
+        declare_parameter<int>("x_sample_size");
+        declare_parameter<int>("y_sample_size");
 
         x_sample_size = get_parameter("x_sample_size").as_int();
         y_sample_size = get_parameter("y_sample_size").as_int();
@@ -110,7 +88,7 @@ namespace nav_testbench
         pcl::toROSMsg(cloud_builder, cloud);
 
         cloud.header.frame_id = source_frame_;
-        cloud.header.stamp = this->get_clock()->now();
+        cloud.header.stamp = now();
 
         geometry_msgs::msg::TransformStamped inverse_transform;
         const bool inv_transform_ok = getTransform(inverse_transform, robot_frame_, source_frame_);

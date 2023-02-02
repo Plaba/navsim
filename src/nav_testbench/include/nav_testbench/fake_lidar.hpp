@@ -9,25 +9,21 @@
 #include <tf2_ros/buffer.h>
 #include <tf2_ros/transform_listener.h>
 #include <tf2_geometry_msgs/tf2_geometry_msgs.h>
+#include <nav_testbench/fake_sensor_node.hpp>
 
- 
 using namespace std::chrono_literals;
 
 namespace nav_testbench
 {
 
-class FakeLidar : public rclcpp::Node
+class FakeLidar : public FakeSensorNode
 {
 public:
     FakeLidar();
 private:
     void timerCallback();
 
-    std::string robot_frame_;
-    std::string source_frame_;
-    std::unique_ptr<SimulationEnvironment> map_;
-
-    const rclcpp::Duration transform_timeout_ = rclcpp::Duration(0.5 * 1000000000);
+    const rclcpp::Duration transform_timeout_ = rclcpp::Duration::from_seconds(0.5);
     const std::unique_ptr<tf2_ros::Buffer> tf_buffer_;
     const std::shared_ptr<tf2_ros::TransformListener> tf_listener_;
     const rclcpp::Publisher<sensor_msgs::msg::LaserScan>::SharedPtr publisher_;
@@ -36,7 +32,7 @@ private:
     float getRayIntersection(const geometry_msgs::msg::TransformStamped &transformStamped, float angle,
                              float min_range, float max_range);
 
-    sensor_msgs::msg::LaserScan getDefaultLaserScan() const;
+    sensor_msgs::msg::LaserScan getDefaultLaserScan();
 
     bool getCurrentTransform(geometry_msgs::msg::TransformStamped &transform_out) const;
 };

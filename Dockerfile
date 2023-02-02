@@ -35,6 +35,7 @@ USER root
 RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
     --mount=target=/var/cache/apt,type=cache,sharing=locked \
     . /opt/ros/galactic/setup.sh \
+    && apt update \
     && rosdep install --from-paths ${WORKSPACE}/src/ --ignore-src -y
 
 RUN chown -R dev /home/dev
@@ -46,10 +47,12 @@ COPY --chown=dev:dev mk ${WORKSPACE}
 ARG MK_ARGS=""
 RUN cd ${WORKSPACE} \
     && . /opt/ros/galactic/setup.sh \
-    && ./mk ${MK_ARGS}
+    && ./mk \
+    && mkdir scenarios
 
 COPY --chown=dev:dev run ${WORKSPACE}
+COPY --chown=dev:dev resources/default.rviz /home/dev/.rviz2/default.rviz
 
-CMD cd ${WORKSPACE} && \
-    . install/setup.sh && \
-    ./run
+CMD cd ${WORKSPACE} \
+    && . install/setup.sh \
+    && ./run

@@ -1,6 +1,7 @@
 #ifndef NAV_TESTBENCH_FAKE_LANE_CAMERA_HPP
 #define NAV_TESTBENCH_FAKE_LANE_CAMERA_HPP
 
+#include <nav_testbench/fake_sensor_node.hpp>
 #include <nav_testbench/utils/simulation_environment.hpp>
 #include <nav_testbench/utils/tf2_polygon_msgs.hpp>
 #include <pcl_conversions/pcl_conversions.h>
@@ -17,7 +18,7 @@
 
 namespace nav_testbench
 {
-class FakeLaneCamera : public rclcpp::Node {
+class FakeLaneCamera : public FakeSensorNode {
 public:
     FakeLaneCamera();
 private:
@@ -26,9 +27,6 @@ private:
     int y_sample_size;
 
     geometry_msgs::msg::PolygonStamped image_corners_;
-    std::unique_ptr<SimulationEnvironment> map_;
-    std::string robot_frame_;
-    std::string source_frame_;
 
     const std::unique_ptr<tf2_ros::Buffer> tf_buffer_;
     const std::shared_ptr<tf2_ros::TransformListener> tf_listener_;

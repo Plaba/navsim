@@ -26,8 +26,7 @@ FakeRobotOdometry::FakeRobotOdometry() : Node("fake_robot_odom")
 , publisher_(create_publisher<nav_msgs::msg::Odometry>("odom", 10))
 , cmd_vel_sub_(create_subscription<geometry_msgs::msg::Twist>(
         "/cmd_vel",rclcpp::SensorDataQoS(),
-        std::bind(&FakeRobotOdometry::cmdVelCallback,this,_1)
-))
+        std::bind(&FakeRobotOdometry::cmdVelCallback,this,_1)))
 {
     declare_parameter<double>("start_x");
     declare_parameter<double>("start_y");
@@ -38,6 +37,30 @@ FakeRobotOdometry::FakeRobotOdometry() : Node("fake_robot_odom")
     odom_th = get_parameter("start_th").as_double();
 
     last_cmd_vel_received = rclcpp::Time((int64_t)0, now().get_clock_type());
+
+    callback_handle_ = add_on_set_parameters_callback(
+        std::bind(&FakeRobotOdometry::parametersCallback, this, std::placeholders::_1));
+}
+
+rcl_interfaces::msg::SetParametersResult FakeRobotOdometry::parametersCallback(
+    const std::vector<rclcpp::Parameter> &parameters)
+{
+    rcl_interfaces::msg::SetParametersResult result;
+    result.successful = true;
+
+    for(auto parameter : parameters){
+        if(parameter.get_name() == "start_x"){
+            odom_x = parameter.as_double();
+        } else if(parameter.get_name() == "start_y"){
+            odom_y = parameter.as_double();
+        } else if(parameter.get_name() == "start_th") {
+            odom_th = parameter.as_double();
+        }
+    }
+
+    odom_vth = odom_vx = odom_vy = 0;
+
+    return result;
 }
 
 geometry_msgs::msg::Quaternion FakeRobotOdometry::getOdomQuaternion() const{

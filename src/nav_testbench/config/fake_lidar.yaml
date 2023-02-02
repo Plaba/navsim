@@ -1,7 +1,3 @@
 fake_lidar:
   ros__parameters:
-    map:
-      path: src/simulation/nav_testbench/config/igvc-map-fixed.png
-      width: 36.576
-      height: 42.672
     frame: laser

@@ -1,9 +1,6 @@
 fake_lane_camera:
   ros__parameters:
-    map:
-      path: src/simulation/nav_testbench/config/igvc-map-fixed.png
-      width: 36.576
-      height: 42.672
+    frame: camera
 
     x_sample_size: 10
     y_sample_size: 20

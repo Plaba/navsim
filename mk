@@ -5,14 +5,9 @@
 for arg in "$@"
 do
     case $arg in
-        -c|--clean)
-        CLEAN=1
-        shift
-        ;;
-        *)
-        PKG_NAME=$arg
-        shift
-        ;;
+        -n|--nuke) NUKE=1; ;;
+        -c|--clean) CLEAN=1; shift;;
+        *) PKG_NAME=$arg; shift; ;;
     esac
 done
 
@@ -28,6 +23,10 @@ fi
 
 if [ -n "$IGNORED_PACKAGES" ]; then
     COLCON_ARGS="$COLCON_ARGS --packages-ignore $IGNORED_PACKAGES"
+fi
+
+if [ -n "$NUKE" ]; then
+    rm -rf build install log
 fi
 
 colcon build $COLCON_ARGS --cmake-args\

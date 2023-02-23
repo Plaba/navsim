@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(navsim_rqt_plugin)
+project(rqt_navsim_plugin)
 
 # Default to C99
 if(NOT CMAKE_C_STANDARD)
@@ -23,23 +23,24 @@ find_package(std_msgs REQUIRED)
 find_package(rqt_gui_cpp REQUIRED)
 find_package(Qt5Widgets REQUIRED)
 find_package(qt_gui_cpp REQUIRED)
+find_package(simulation_loader_msgs REQUIRED)
 
 # Start
 # Prepare to create rqt plugin as cpp library
 
 # Define source files
 set(${PROJECT_NAME}_SRCS
-  src/rqt_push_button.cpp
+  src/rqt_navsim_plugin.cpp
 )
 
 # Define header files
 set(${PROJECT_NAME}_HDRS
-  include/${PROJECT_NAME}/rqt_push_button.hpp
+  include/${PROJECT_NAME}/rqt_navsim_plugin.hpp
 )
 
 # Define ui file
 set(${PROJECT_NAME}_UIS
-  resource/rqt_push_button.ui
+  resource/rqt_navsim_plugin.ui
 )
 
 # Define include directories
@@ -61,24 +62,30 @@ include_directories(
   ${${PROJECT_NAME}_INCLUDE_DIRECTORIES}
 )
 
-add_library(rqt_push_button
+add_library(rqt_navsim_plugin
   ${${PROJECT_NAME}_SRCS}
   ${${PROJECT_NAME}_MOCS}
   ${${PROJECT_NAME}_UIS_H}
 )
-ament_target_dependencies(rqt_push_button
+ament_target_dependencies(rqt_navsim_plugin
   rclcpp
   std_msgs
   qt_gui_cpp
   rqt_gui_cpp
+  simulation_loader_msgs
 )
-target_link_libraries(rqt_push_button
+
+target_include_directories(rqt_navsim_plugin PRIVATE
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>)
+
+target_link_libraries(rqt_navsim_plugin
   Qt5::Widgets
 )
 # Ends
 
 install(
-  TARGETS rqt_push_button
+  TARGETS rqt_navsim_plugin
   EXPORT ${PROJECT_NAME}
   ARCHIVE DESTINATION lib/${PROJECT_NAME}
   LIBRARY DESTINATION lib/${PROJECT_NAME}
@@ -121,6 +128,6 @@ endif()
 pluginlib_export_plugin_description_file(rqt_gui "plugin.xml")
 
 ament_export_include_directories(include)
-ament_export_libraries(rqt_push_button)
+ament_export_libraries(rqt_navsim_plugin)
 
 ament_package()

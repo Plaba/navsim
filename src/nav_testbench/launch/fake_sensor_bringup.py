@@ -41,3 +41,14 @@ def generate_launch_description():
         right_camera,
         left_camera
     ])
+
+def generate_launch_description_with_config(map_config, odom_config):
+    right_camera, left_camera = fake_sensor_nodes.get_fake_cameras(config=map_config)
+
+    return LaunchDescription([
+        get_static_transforms(),
+        fake_sensor_nodes.get_fake_odom(config=odom_config),
+        fake_sensor_nodes.get_fake_lidar(config=map_config),
+        right_camera,
+        left_camera
+    ])

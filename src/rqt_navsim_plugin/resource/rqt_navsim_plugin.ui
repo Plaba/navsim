@@ -50,16 +50,16 @@
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="QPushButton" name="pushButton_1">
-      <property name="text">
-       <string>Push Button 1</string>
+     <widget class="QFileDialog" name="sim_file_loader">
+      <property name="defaultSuffix">
+       <string>yml</string>
       </property>
      </widget>
     </item>
     <item>
-     <widget class="QPushButton" name="pushButton_2">
+     <widget class="QPushButton" name="start_sim_button">
       <property name="text">
-       <string>Push Button 2</string>
+       <string>Run</string>
       </property>
      </widget>
     </item>

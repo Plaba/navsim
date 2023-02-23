@@ -14,7 +14,13 @@ MAP_CONFIG = {
     }
 }
 
-def get_fake_lidar():
+ODOM_CONFIG = os.path.join(
+    get_package_share_directory('nav_testbench'),
+    'config',
+    'fake_odom.yaml'
+)
+
+def get_fake_lidar(config=MAP_CONFIG):
     lidar_config = os.path.join(
         get_package_share_directory('nav_testbench'),
         'config',
@@ -24,11 +30,11 @@ def get_fake_lidar():
     return Node(
         package="nav_testbench",
         executable="fake_lidar",
-        parameters=[lidar_config, MAP_CONFIG]
+        parameters=[lidar_config, config]
     )
 
 
-def get_fake_cameras():
+def get_fake_cameras(config=MAP_CONFIG):
     fake_camera_config = os.path.join(
         get_package_share_directory('nav_testbench'),
         'config',
@@ -39,29 +45,23 @@ def get_fake_cameras():
         Node(
             package="nav_testbench",
             executable="fake_lane_camera",
-            parameters=[fake_camera_config, {"frame": "left_lanes"}, MAP_CONFIG],
+            parameters=[fake_camera_config, {"frame": "left_lanes"}, config],
             remappings=[("lane_cloud", "left_lane_cloud"),
                         ("camera_view", "left_camera_view")]
         ),
         Node(
             package="nav_testbench",
             executable="fake_lane_camera",
-            parameters=[fake_camera_config, {"frame": "right_lanes"}, MAP_CONFIG],
+            parameters=[fake_camera_config, {"frame": "right_lanes"}, config],
             remappings=[("lane_cloud", "right_lane_cloud"),
                         ("camera_view", "right_camera_view")]
         )
     )
 
 
-def get_fake_odom():
-    odom_config = os.path.join(
-        get_package_share_directory('nav_testbench'),
-        'config',
-        'fake_odom.yaml'
-    )
-
+def get_fake_odom(config=ODOM_CONFIG):
     return Node(
         package="nav_testbench",
         executable="fake_robot_odom",
-        parameters=[odom_config]
+        parameters=[config]
     )

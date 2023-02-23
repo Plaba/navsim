@@ -6,9 +6,9 @@ trap 'kill -SIGINT $child_pids; wait $child_pids' SIGINT
 
 rqt & 
 child_pids=$!
-rviz2 &
-child_pids="$child_pids $!"
-ros2 launch nav_testbench nav_bringup.launch.py &
+# rviz2 &
+# child_pids="$child_pids $!"
+ros2 run simulation_loader simulation_loader &
 child_pids="$child_pids $!"
 
 wait $child_pids

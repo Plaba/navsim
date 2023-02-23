@@ -1,0 +1,21 @@
+map: 
+    path: igvc-map.png
+    width: 36.576
+    height: 42.672
+start:
+    startx: 3.0
+    y: -16.6
+    theta: 0.0
+goals:
+    - x: 31.8
+      y: -35.5
+      theta: 0.0
+    - x: 30.5
+      y: -23.6
+      theta: 0.0
+    - x: 30.5
+      y: -17.0
+      theta: 0.0
+    - x: 3.0
+      y: -16.6
+      theta: 0.0

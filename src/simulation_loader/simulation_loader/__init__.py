@@ -1,2 +1,2 @@
-import robot_navigator
-import simulation_loader
+from . import robot_navigator
+from . import simulation_loader

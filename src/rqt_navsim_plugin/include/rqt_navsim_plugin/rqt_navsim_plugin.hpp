@@ -1,22 +1,13 @@
-#ifndef PUSH_BUTTON_H__
-#define PUSH_BUTTON_H__
+#ifndef RQT_NAVSIM_PLUGIN_HPP
+#define RQT_NAVSIM_PLUGIN_HPP
 
-// ROS2
 #include <rclcpp/rclcpp.hpp>
 #include <rclcpp_action/rclcpp_action.hpp>
 #include <simulation_loader_msgs/action/load_simulation.hpp>
 
-// msgs
-#include <std_msgs/msg/bool.hpp>
-
-// Rqt
 #include <rqt_gui_cpp/plugin.h>
-
-// Qt
-#include <QWidget>
-
-// Custom UI
 #include <rqt_navsim_plugin/ui_rqt_navsim_plugin.h>
+#include <QWidget>
 
 namespace rqt_plugin
 {
@@ -43,8 +34,9 @@ namespace rqt_plugin
         Ui::gui ui_;
         QWidget * widget_;
 
-        // ROS2 related declaration
         rclcpp_action::Client<LoadSimulation>::SharedPtr client_ptr_;
+
+        void send_goal();
 
         void goal_response_callback(std::shared_future<GoalHandleLoadSimulation::SharedPtr> future);
 
@@ -58,9 +50,9 @@ namespace rqt_plugin
         LoadSimulation::Goal goal_;
       
       protected slots:
-        void file_load_callback();
+        void load_button_callback();
         void start_button_callback();
   };
 }  // namespace rqt_plugin
 
-#endif  // PUSH_BUTTON_H__
+#endif  // RQT_NAVSIM_PLUGIN_HPP

@@ -3,8 +3,8 @@
 <package format="3">
   <name>rqt_navsim_plugin</name>
   <version>0.0.0</version>
-  <description>This repository demonstrate custom rqt plugin on ROS2.</description>
-  <maintainer email="jianle001@e.ntu.edu.sg">Bruce Chan Jian Le</maintainer>
+  <description>This package is a file selection launcher for navsim</description>
+  <maintainer email="plaba417@students.bju.edu">Peter Labadorf</maintainer>
   <license>MIT</license>
 
   <buildtool_depend>ament_cmake_ros</buildtool_depend>
@@ -25,6 +25,6 @@
 
   <export>
     <build_type>ament_cmake</build_type>
-    <rqt_gui plugin="${prefix}/plugin.xml"/>
+    <rqt_gui plugin="plugin.xml"/>
   </export>
 </package>

@@ -17,6 +17,7 @@ endif()
 
 # find dependencies
 find_package(rclcpp REQUIRED)
+find_package(rclcpp_action REQUIRED)
 find_package(ament_cmake REQUIRED)
 find_package(ament_cmake_ros REQUIRED)
 find_package(std_msgs REQUIRED)
@@ -69,6 +70,7 @@ add_library(rqt_navsim_plugin
 )
 ament_target_dependencies(rqt_navsim_plugin
   rclcpp
+  rclcpp_action
   std_msgs
   qt_gui_cpp
   rqt_gui_cpp
@@ -92,7 +94,7 @@ install(
   RUNTIME DESTINATION bin/${PROJECT_NAME}
   INCLUDES DESTINATION include)
 
-install(PROGRAMS scripts/rqt_push_button
+install(PROGRAMS scripts/rqt_navsim_plugin
   DESTINATION lib/${PROJECT_NAME}
 )
 

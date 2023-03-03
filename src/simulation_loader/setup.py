@@ -5,7 +5,7 @@ package_name = 'simulation_loader'
 setup(
     name=package_name,
     version='0.0.0',
-    packages=find_packages(),
+    packages=[package_name],
     data_files=[
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),

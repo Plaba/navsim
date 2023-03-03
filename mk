@@ -14,7 +14,7 @@ done
 COLCON_ARGS=""
 
 if [ -n "$PKG_NAME" ]; then
-    COLCON_ARGS="$COLCON_ARGS --packages-select $PKG_NAME"
+    COLCON_ARGS="$COLCON_ARGS --packages-up-to $PKG_NAME"
 fi
 
 if [ -n "$CLEAN" ]; then

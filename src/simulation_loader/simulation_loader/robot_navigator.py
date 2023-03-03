@@ -33,8 +33,6 @@ class BasicNavigator(Node):
         self.feedback = None
         self.status = None
 
- 
-
         self.initial_pose_received = False
         self.nav_through_poses_client = ActionClient(self,
                                                      NavigateThroughPoses,
@@ -168,7 +166,6 @@ class BasicNavigator(Node):
             return NavigationResult.UNKNOWN
 
     def waitUntilNav2Active(self):
-        self._waitForInitialPose()
         self._waitForNodeToActivate('bt_navigator')
         self.info('Nav2 is ready for use!')
         return
@@ -342,27 +339,10 @@ class BasicNavigator(Node):
             time.sleep(2)
         return
 
-    def _waitForInitialPose(self):
-        while not self.initial_pose_received:
-            self.info('Setting initial pose')
-            self._setInitialPose()
-            self.info('Waiting for amcl_pose to be received')
-            rclpy.spin_once(self, timeout_sec=1.0)
-        return
-
 
     def _feedbackCallback(self, msg):
         self.debug('Received action feedback message')
         self.feedback = msg.feedback
-        return
-
-    def _setInitialPose(self):
-        msg = PoseWithCovarianceStamped()
-        msg.pose.pose = self.initial_pose.pose
-        msg.header.frame_id = self.initial_pose.header.frame_id
-        msg.header.stamp = self.initial_pose.header.stamp
-        self.info('Publishing Initial Pose')
-        self.initial_pose_pub.publish(msg)
         return
 
     def info(self, msg):

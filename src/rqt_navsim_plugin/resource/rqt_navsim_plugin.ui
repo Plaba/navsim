@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Navsim Launch</string>
   </property>
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
@@ -22,22 +22,6 @@
      <height>61</height>
     </rect>
    </property>
-   <layout class="QVBoxLayout" name="verticalLayout_2">
-    <item>
-     <widget class="QLabel" name="label_1">
-      <property name="text">
-       <string>This is label 1.</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QLabel" name="label_2">
-      <property name="text">
-       <string>This is label 2.</string>
-      </property>
-     </widget>
-    </item>
-   </layout>
   </widget>
   <widget class="QWidget" name="layoutWidget_2">
    <property name="geometry">
@@ -53,6 +37,13 @@
      <widget class="QFileDialog" name="sim_file_loader">
       <property name="defaultSuffix">
        <string>yml</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="load_sim_button">
+      <property name="text">
+       <string>Load</string>
       </property>
      </widget>
     </item>

@@ -1,16 +1,9 @@
 <library path="rqt_navsim_plugin">
   <class name="rqt_plugin/NavsimLaunchGUI" type="rqt_plugin::NavsimLaunchGUI" base_class_type="rqt_gui_cpp::Plugin">
     <description>
-      This repository demonstrate custom rqt plugin on ROS2.
+      This is a plugin for creating navsim simulations.
     </description>
     <qtgui>
-      <group>
-        <label>Visualization</label>
-        <icon type="theme">applications-graphics</icon>
-        <!-- Reference Link -->
-        <!-- https://gist.github.com/peteristhegreat/c0ca6e1a57e5d4b9cd0bb1d7b3be1d6a -->
-        <statustip>Custom plugin.</statustip>
-      </group>
       <label>Navsim Launch</label>
       <icon type="theme">image-x-generic</icon>
       <statustip>A custom plugin in rqt ROS2.</statustip>

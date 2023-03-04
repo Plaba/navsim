@@ -47,8 +47,7 @@ COPY --chown=dev:dev mk ${WORKSPACE}
 ARG MK_ARGS=""
 RUN cd ${WORKSPACE} \
     && . /opt/ros/galactic/setup.sh \
-    && ./mk \
-    && mkdir scenarios
+    && ./mk
 
 COPY --chown=dev:dev run ${WORKSPACE}
 COPY --chown=dev:dev resources/default.rviz /home/dev/.rviz2/default.rviz

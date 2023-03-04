@@ -9,4 +9,6 @@ services:
       - DISPLAY=${DISPLAY}
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix
+      - ./simulations:/home/dev/simulations
+      - ./resources/:/home/dev/.rviz2
     network_mode: host
